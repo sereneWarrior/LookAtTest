@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "LookAtTarget.h"
 #include "LookAtTestCharacter.generated.h"
 
 
@@ -37,7 +38,6 @@ class ALookAtTestCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
-
 public:
 	ALookAtTestCharacter();
 	
@@ -63,5 +63,11 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ALookAtTarget* LookAtTarget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsLookingAt = false;
 };
 
