@@ -38,6 +38,10 @@ class ALookAtTestCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* LookAction;
 
+	/** Interaction Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* InterAction;
+
 public:
 	ALookAtTestCharacter();
 	
@@ -50,6 +54,8 @@ protected:
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
 			
+	/** Called for looking input */
+	void Interact(const FInputActionValue& InputActionValue);
 
 protected:
 	// APawn interface

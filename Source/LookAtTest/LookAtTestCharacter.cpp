@@ -84,6 +84,9 @@ void ALookAtTestCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 		//Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ALookAtTestCharacter::Look);
 
+		//Ineracting
+		EnhancedInputComponent->BindAction(InterAction, ETriggerEvent::Triggered, this, &ALookAtTestCharacter::Interact);
+
 	}
 
 }
@@ -123,3 +126,16 @@ void ALookAtTestCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
 }
+
+void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
+{
+	TArray<AActor*> otherActors;
+	GetOverlappingActors(otherActors, ALookAtTarget::StaticClass());
+	if (!otherActors.IsEmpty())
+	{
+		// TODO: Use Interface.
+		UE_LOG(LogTemp, Log, TEXT("Interact"));
+	}
+}
+
+
