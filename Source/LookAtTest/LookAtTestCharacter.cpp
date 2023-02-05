@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Interactable.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -130,12 +131,19 @@ void ALookAtTestCharacter::Look(const FInputActionValue& Value)
 void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 {
 	TArray<AActor*> otherActors;
-	GetOverlappingActors(otherActors, ALookAtTarget::StaticClass());
+	GetOverlappingActors(otherActors);
 	if (!otherActors.IsEmpty())
 	{
-		// TODO: Use Interface.
-		UE_LOG(LogTemp, Log, TEXT("Interact"));
+		if (otherActors[0]->Implements<UInteractable>())
+		{
+			IInteractable::Execute_Interact(otherActors[0], this);
+		}
 	}
+}
+
+void ALookAtTestCharacter::InteractDoor()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Door"));
 }
 
 

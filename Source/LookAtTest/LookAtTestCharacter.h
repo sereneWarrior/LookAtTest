@@ -75,5 +75,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsLookingAt = false;
+
+	void InteractDoor();
 };
 
