@@ -70,11 +70,20 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
+	/** Head rotation towards a specific target. **/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	ALookAtTarget* LookAtTarget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsLookingAt = false;
+	
+	/** Interaction flag.**/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsInteracting = false;
+
+	/** Play interaction animations. **/
+	UFUNCTION(BlueprintImplementableEvent)
+	void PlayOpenDoorAnimation();
 
 	void InteractDoor();
 };

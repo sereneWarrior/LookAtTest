@@ -144,6 +144,7 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 void ALookAtTestCharacter::InteractDoor()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Door"));
+	PlayOpenDoorAnimation();
 }
 
 
