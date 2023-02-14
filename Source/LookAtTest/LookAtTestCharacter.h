@@ -81,9 +81,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsInteracting = false;
 
+	/** Kneeling flag.**/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsKneeling = false;
+
 	/** Play interaction animations. **/
 	UFUNCTION(BlueprintImplementableEvent)
 	void PlayOpenDoorAnimation();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void PlayOpenChestAnimation();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void KneelDown();
 
 	void InteractDoor();
 };

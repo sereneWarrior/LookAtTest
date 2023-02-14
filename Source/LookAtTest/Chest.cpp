@@ -20,7 +20,9 @@ void AChest::BeginPlay()
 
 void AChest::Interact_Implementation(ALookAtTestCharacter* interActor)
 {
+	// TODO: Check if IsInteractingflag is set.
 	UE_LOG(LogTemp, Warning, TEXT("Chest"));
+	interActor->PlayOpenChestAnimation();
 }
 
 // Called every frame

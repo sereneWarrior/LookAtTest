@@ -32,18 +32,19 @@ void UBaseAnimInstance::NativeInitializeAnimation()
 void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
-
 	// Handle Idle/Walk transition.
 	if (CharacterMovement != nullptr)
 	{
 		Speed = CharacterMovement->Velocity.Size();
 	}
-	ShouldMove = Speed >= 3.0 && CharacterMovement->GetCurrentAcceleration() != FVector::ZeroVector;
-
-	// Handle Look at behaviour.
+	
+	ShouldMove = Speed >= 3.0
+		&& CharacterMovement->GetCurrentAcceleration() != FVector::ZeroVector;
+	// TODO: set up in initialization
 	ALookAtTestCharacter* Character = Cast<ALookAtTestCharacter>(Owner);
 	if (Character == nullptr) return;
 
+	// Handle Look at behaviour.
 	ToggleLookAt = Character->IsLookingAt;
 	if (ToggleLookAt)
 	{

@@ -86,7 +86,7 @@ void ALookAtTestCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ALookAtTestCharacter::Look);
 
 		//Ineracting
-		EnhancedInputComponent->BindAction(InterAction, ETriggerEvent::Triggered, this, &ALookAtTestCharacter::Interact);
+		EnhancedInputComponent->BindAction(InterAction, ETriggerEvent::Completed, this, &ALookAtTestCharacter::Interact);
 
 	}
 
@@ -130,19 +130,30 @@ void ALookAtTestCharacter::Look(const FInputActionValue& Value)
 
 void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 {
+	// TODO: Improve where it is called. If Kneeling is moved at some point it needs change.
+	IsInteracting = true;
 	TArray<AActor*> otherActors;
 	GetOverlappingActors(otherActors);
+	// Trigger interaction animation
 	if (!otherActors.IsEmpty())
 	{
 		if (otherActors[0]->Implements<UInteractable>())
 		{
 			IInteractable::Execute_Interact(otherActors[0], this);
+			IsInteracting = false;
+			return;
 		}
 	}
+	// TODO: Kneeling should be limited. Add overlapping area.
+	// Trigger kneeling
+	UE_LOG(LogTemp, Warning, TEXT("Kneel"));
+	KneelDown();
 }
 
 void ALookAtTestCharacter::InteractDoor()
 {
+	// TODO: Check if IsInteractingflag is set.
+	// TODO: Call animation play function from Door class?
 	UE_LOG(LogTemp, Warning, TEXT("Door"));
 	PlayOpenDoorAnimation();
 }
