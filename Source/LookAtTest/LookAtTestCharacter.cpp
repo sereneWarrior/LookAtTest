@@ -10,6 +10,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Interactable.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -65,6 +66,24 @@ void ALookAtTestCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	if (CurveRot)
+	{
+		FOnTimelineFloat TimelineProgress;
+		// Call on completed
+		//FOnTimelineEventStatic TLFinishedCallback;
+		
+		TimelineProgress.BindUFunction(this, FName("RotationUpdate"));
+		//TLFinishedCallback.BindUFunction...
+		CurveTimeline.AddInterpFloat(CurveRot, TimelineProgress);
+	}
+}
+
+void ALookAtTestCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	CurveTimeline.TickTimeline(DeltaTime);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -131,7 +150,6 @@ void ALookAtTestCharacter::Look(const FInputActionValue& Value)
 void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 {
 	// TODO: Improve where it is called. If Kneeling is moved at some point it needs change.
-	IsInteracting = true;
 	TArray<AActor*> otherActors;
 	GetOverlappingActors(otherActors);
 	// Trigger interaction animation
@@ -140,7 +158,6 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 		if (otherActors[0]->Implements<UInteractable>())
 		{
 			IInteractable::Execute_Interact(otherActors[0], this);
-			IsInteracting = false;
 			return;
 		}
 	}
@@ -158,4 +175,24 @@ void ALookAtTestCharacter::InteractDoor()
 	PlayOpenDoorAnimation();
 }
 
+void ALookAtTestCharacter::RotateTo(FRotator target)
+{
+	//FRotator lookAtRotation = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), target);
+	FRotator newRot = UKismetMathLibrary::RInterpTo_Constant(GetActorRotation(), target, GetWorld()->GetDeltaSeconds(), 1.0f);
+	SetActorRotation(newRot);
+}
 
+void ALookAtTestCharacter::RotationUpdate( float value)
+{
+	UE_LOG(LogTemp, Warning, TEXT("state %d"), value);
+	FRotator newRot = UKismetMathLibrary::RInterpTo_Constant(GetActorRotation(), End, GetWorld()->GetDeltaSeconds(), value);
+	SetActorRotation(newRot);
+}
+
+void ALookAtTestCharacter::DoTimeline(USkeletalMeshComponent* EnterMesh)
+{
+	CurveTimeline.SetPlayRate(1.0f/5.0f);
+	UE_LOG(LogTemp, Warning, TEXT("start TL"));
+	End = EnterMesh->GetComponentRotation();
+	CurveTimeline.PlayFromStart();
+}

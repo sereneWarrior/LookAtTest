@@ -22,7 +22,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void Interact_Implementation(ALookAtTestCharacter* interActor) override;
+	
+	UPROPERTY()
+	USceneComponent* Root;
 
+	UPROPERTY(EditAnywhere)
+	USkeletalMeshComponent* EnterMesh;
+	
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

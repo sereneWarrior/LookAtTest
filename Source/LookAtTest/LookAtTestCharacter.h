@@ -6,8 +6,8 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "LookAtTarget.h"
+#include "Components/TimelineComponent.h"
 #include "LookAtTestCharacter.generated.h"
-
 
 UCLASS(config=Game)
 class ALookAtTestCharacter : public ACharacter
@@ -60,9 +60,16 @@ protected:
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual void Tick(float DeltaTime) override;
 	
 	// To add mapping context
 	virtual void BeginPlay();
+
+	FTimeline CurveTimeline;
+
+	UPROPERTY(EditAnywhere)
+	UCurveFloat* CurveRot;
 
 public:
 	/** Returns CameraBoom subobject **/
@@ -90,11 +97,27 @@ public:
 	void PlayOpenDoorAnimation();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void PlayOpenChestAnimation();
+	void PlayOpenChestAnimation(FVector newLocation);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void MovePlayerTo(FVector newLocation, FRotator otherRot, float duration);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void KneelDown();
 
 	void InteractDoor();
+
+	void RotateTo(FRotator target);
+
+	UFUNCTION()
+	void RotationUpdate(float value);
+
+	void DoTimeline(USkeletalMeshComponent* EnterMesh);
+
+private:
+
+	FRotator Start;
+
+	FRotator End;
 };
 
