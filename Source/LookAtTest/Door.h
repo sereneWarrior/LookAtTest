@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Interactable.h"
+#include "InteractableBase.h"
 
 #include "Door.generated.h"
 
 UCLASS()
-class LOOKATTEST_API ADoor : public AActor, public IInteractable
+class LOOKATTEST_API ADoor : public AInteractableBase, public IInteractable
 {
 	GENERATED_BODY()
 	
@@ -18,12 +19,6 @@ public:
 	ADoor();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 	virtual void Interact_Implementation(ALookAtTestCharacter* interActor) override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 };

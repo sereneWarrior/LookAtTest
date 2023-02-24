@@ -9,7 +9,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Interactable.h"
+#include <LookAtTest/Chest.h>
+
 #include "Kismet/KismetMathLibrary.h"
 
 
@@ -66,24 +67,12 @@ void ALookAtTestCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
-	if (CurveRot)
-	{
-		FOnTimelineFloat TimelineProgress;
-		// Call on completed
-		//FOnTimelineEventStatic TLFinishedCallback;
-		
-		TimelineProgress.BindUFunction(this, FName("RotationUpdate"));
-		//TLFinishedCallback.BindUFunction...
-		CurveTimeline.AddInterpFloat(CurveRot, TimelineProgress);
-	}
 }
 
 void ALookAtTestCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	CurveTimeline.TickTimeline(DeltaTime);
+	
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -167,32 +156,4 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 	KneelDown();
 }
 
-void ALookAtTestCharacter::InteractDoor()
-{
-	// TODO: Check if IsInteractingflag is set.
-	// TODO: Call animation play function from Door class?
-	UE_LOG(LogTemp, Warning, TEXT("Door"));
-	PlayOpenDoorAnimation();
-}
 
-void ALookAtTestCharacter::RotateTo(FRotator target)
-{
-	//FRotator lookAtRotation = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), target);
-	FRotator newRot = UKismetMathLibrary::RInterpTo_Constant(GetActorRotation(), target, GetWorld()->GetDeltaSeconds(), 1.0f);
-	SetActorRotation(newRot);
-}
-
-void ALookAtTestCharacter::RotationUpdate( float value)
-{
-	UE_LOG(LogTemp, Warning, TEXT("state %d"), value);
-	FRotator newRot = UKismetMathLibrary::RInterpTo_Constant(GetActorRotation(), End, GetWorld()->GetDeltaSeconds(), value);
-	SetActorRotation(newRot);
-}
-
-void ALookAtTestCharacter::DoTimeline(USkeletalMeshComponent* EnterMesh)
-{
-	CurveTimeline.SetPlayRate(1.0f/5.0f);
-	UE_LOG(LogTemp, Warning, TEXT("start TL"));
-	End = EnterMesh->GetComponentRotation();
-	CurveTimeline.PlayFromStart();
-}

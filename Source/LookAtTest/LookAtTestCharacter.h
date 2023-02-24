@@ -9,6 +9,10 @@
 #include "Components/TimelineComponent.h"
 #include "LookAtTestCharacter.generated.h"
 
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPlayAnimDelegate);
+
 UCLASS(config=Game)
 class ALookAtTestCharacter : public ACharacter
 {
@@ -66,11 +70,6 @@ protected:
 	// To add mapping context
 	virtual void BeginPlay();
 
-	FTimeline CurveTimeline;
-
-	UPROPERTY(EditAnywhere)
-	UCurveFloat* CurveRot;
-
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -93,31 +92,19 @@ public:
 	bool IsKneeling = false;
 
 	/** Play interaction animations. **/
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	void PlayOpenDoorAnimation();
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void PlayOpenChestAnimation(FVector newLocation);
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void PlayOpenChestAnimation();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void MovePlayerTo(FVector newLocation, FRotator otherRot, float duration);
 
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FPlayAnimDelegate OnplayAnim;
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void KneelDown();
-
-	void InteractDoor();
-
-	void RotateTo(FRotator target);
-
-	UFUNCTION()
-	void RotationUpdate(float value);
-
-	void DoTimeline(USkeletalMeshComponent* EnterMesh);
-
-private:
-
-	FRotator Start;
-
-	FRotator End;
 };
 

@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Interactable.h"
+#include "InteractableBase.h"
 
 #include "Chest.generated.h"
 
 UCLASS()
-class LOOKATTEST_API AChest : public AActor, public IInteractable
+class LOOKATTEST_API AChest : public AInteractableBase, public IInteractable
 {
 	GENERATED_BODY()
 	
@@ -18,19 +19,6 @@ public:
 	AChest();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 	virtual void Interact_Implementation(ALookAtTestCharacter* interActor) override;
-	
-	UPROPERTY()
-	USceneComponent* Root;
-
-	UPROPERTY(EditAnywhere)
-	USkeletalMeshComponent* EnterMesh;
-	
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 };

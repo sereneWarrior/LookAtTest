@@ -27,5 +27,6 @@ void AChime::Tick(float DeltaTime)
 
 void AChime::Interact_Implementation(ALookAtTestCharacter* interActor)
 {
+	// Other like other interactible objects the player character can interact from any oposition and only needs to be rotated.
 	UE_LOG(LogTemp, Warning, TEXT("Chime"));
 }
