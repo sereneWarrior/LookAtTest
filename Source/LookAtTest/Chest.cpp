@@ -11,6 +11,7 @@ AChest::AChest()
 
 void AChest::Interact_Implementation(ALookAtTestCharacter* interActor)
 {
+	UE_LOG(LogTemp, Warning, TEXT("chest"));
 	interActor->OnplayAnim.AddDynamic(interActor, &ALookAtTestCharacter::PlayOpenChestAnimation);
 	MoveToAndPlayAnim(interActor);
 }

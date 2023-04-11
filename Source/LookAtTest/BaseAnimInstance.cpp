@@ -45,7 +45,9 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	if (Character == nullptr) return;
 
 	// Handle Look at behaviour.
-	ToggleLookAt = Character->IsLookingAt;
+	// TODO: should LookAtTraget be reset to nillptr? Then, IsLookingAt might be removed.
+	ToggleLookAt = Character->IsLookingAt && Character->LookAtTarget !=nullptr;
+	//UE_LOG(LogTemp, Warning, TEXT("look? %s"), ToggleLookAt ? TEXT("true") : TEXT("false"));
 	if (ToggleLookAt)
 	{
 		LookAtLocation = Character->LookAtTarget->GetMeshLocation();

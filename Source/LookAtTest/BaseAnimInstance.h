@@ -20,13 +20,13 @@ public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	float Speed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	bool ShouldMove;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	FVector LookAtLocation;
 
 	UPROPERTY(BlueprintReadOnly)
@@ -35,13 +35,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float LOOK_AT_ANGLE_OFFSET = 80.0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)
 	bool ToggleLookAt = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	ACharacter* Owner;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	UCharacterMovementComponent* CharacterMovement;
 
 	

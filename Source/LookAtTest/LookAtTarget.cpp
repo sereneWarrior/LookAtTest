@@ -27,21 +27,25 @@ void ALookAtTarget::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UE_LOG(LogTemp, Warning, TEXT("begin"));
 	Trigger->OnComponentBeginOverlap.AddDynamic(this, &ALookAtTarget::OnOverlapBegin);
 	Trigger->OnComponentEndOverlap.AddDynamic(this, &ALookAtTarget::OnOverlapEnd);
 }
 
 void ALookAtTarget::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	ALookAtTestCharacter* Character = Cast< ALookAtTestCharacter>(OtherActor);
-
-	Character->IsLookingAt = true;
+	ALookAtTestCharacter* Character = Cast<ALookAtTestCharacter>(OtherActor);
+	
+	UE_LOG(LogTemp, Warning, TEXT("look"));
+	
 	Character->LookAtTarget = this;
+	Character->IsLookingAt = true;
 }
 
 void ALookAtTarget::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	ALookAtTestCharacter* Character = Cast< ALookAtTestCharacter>(OtherActor);
-
-	Character->IsLookingAt = false;
+	if (ALookAtTestCharacter* Character = Cast<ALookAtTestCharacter>(OtherActor))
+	{
+		Character->IsLookingAt = false;
+	}
 }

@@ -140,10 +140,12 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 {
 	// TODO: Improve where it is called. If Kneeling is moved at some point it needs change.
 	TArray<AActor*> otherActors;
-	GetOverlappingActors(otherActors);
+	// TODO: Think about using the trigger for lookAt triggering as well. If GetOverlappingActor is used without defining a class it gets the LookAtTaget as well.
+	GetOverlappingActors(otherActors, AInteractableBase::StaticClass());
 	// Trigger interaction animation
 	if (!otherActors.IsEmpty())
 	{
+		// Find solution to get the right actor  at 0 is the lookattarget. Maybe using the same trigger for both events?
 		if (otherActors[0]->Implements<UInteractable>())
 		{
 			IInteractable::Execute_Interact(otherActors[0], this);

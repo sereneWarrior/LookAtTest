@@ -32,10 +32,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	FVector GetMeshLocation();
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	USceneComponent* Root;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UStaticMeshComponent* StaticMeshComponent;
 
 	UPROPERTY(EditAnywhere)

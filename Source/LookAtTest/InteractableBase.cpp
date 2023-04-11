@@ -11,7 +11,7 @@ AInteractableBase::AInteractableBase()
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	EnterMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("EnterMesh"));
-
+	
 	SetRootComponent(Root);
 	EnterMesh->SetupAttachment(Root);
 }

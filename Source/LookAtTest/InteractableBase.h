@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "LookAtTestCharacter.h"
+#include "LookAtTriggerBox.h"
 
 #include "InteractableBase.generated.h"
 
@@ -35,4 +36,10 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* EnterMesh;
+
+	UPROPERTY(EditAnywhere)
+	USceneComponent* Socket;
+
+	UPROPERTY(EditAnywhere)
+	FName LookAt_Socket = "LookAt";
 };
