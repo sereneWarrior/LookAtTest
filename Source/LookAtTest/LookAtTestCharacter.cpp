@@ -9,7 +9,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include <LookAtTest/Chest.h>
+#include "InteractableBase.h"
+#include "Interactable.h"
 
 #include "Kismet/KismetMathLibrary.h"
 

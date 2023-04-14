@@ -43,8 +43,5 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite)
 	UCharacterMovementComponent* CharacterMovement;
-
-	
-	
 };
  

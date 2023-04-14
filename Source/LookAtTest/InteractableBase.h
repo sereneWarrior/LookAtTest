@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "LookAtTestCharacter.h"
-#include "LookAtTriggerBox.h"
 
 #include "InteractableBase.generated.h"
 
