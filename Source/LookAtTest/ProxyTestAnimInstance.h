@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Animation/AnimInstanceProxy.h"
+#include "LookAtTestCharacter.h"
 
 #include "ProxyTestAnimInstance.generated.h"
 
@@ -17,6 +18,7 @@ struct LOOKATTEST_API FBaseAnimInstanceProxy : public FAnimInstanceProxy
 {
 	GENERATED_BODY()
 
+	bool CheckLookAtRotationRange();
 protected:
 	
 	// Called on AnimInstance initialisation.
@@ -60,6 +62,12 @@ protected:
 
 	UPROPERTY(Transient, BlueprintReadOnly)
 		bool ToggleLookAt = false;
+
+	UPROPERTY(Transient, BlueprintReadOnly)
+		bool CharacterIsLookingAt = false;
+
+	UPROPERTY(Transient, BlueprintReadOnly)
+		ALookAtTarget* Target;
 };
 
 
@@ -93,9 +101,6 @@ protected:
 	// Head rotation
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadOnly)
 		FVector LookAtLocation;
-
-	UPROPERTY(Transient, EditAnywhere, BlueprintReadOnly)
-		bool RotationInRange;
 
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadOnly)
 		float LOOK_AT_ANGLE_OFFSET = 80.0;

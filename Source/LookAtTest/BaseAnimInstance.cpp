@@ -4,7 +4,6 @@
 #include "LookAtTestCharacter.h"
 #include "Components/SceneComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "DrawDebugHelpers.h"
 
 void UBaseAnimInstance::CheckLookAtRotationRange()
 {
