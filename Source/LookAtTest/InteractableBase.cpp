@@ -10,24 +10,17 @@ AInteractableBase::AInteractableBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
-	EnterMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("EnterMesh"));
+	EnterMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("EnterMesh"));
 	
 	SetRootComponent(Root);
-	EnterMesh->SetupAttachment(Root);
+	EnterMeshComponent->SetupAttachment(Root);
+
 }
 
 // Called when the game starts or when spawned
 void AInteractableBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
-
-void AInteractableBase::MoveToAndPlayAnim(ALookAtTestCharacter* interActor)
-{
-	float dist = (GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation() - EnterMesh->GetComponentLocation()).Size();
-	float delay = dist / 150.0;
-	interActor->MovePlayerTo(EnterMesh->GetComponentLocation(), EnterMesh->GetComponentRotation(), delay);
 }
 
 // Called every frame

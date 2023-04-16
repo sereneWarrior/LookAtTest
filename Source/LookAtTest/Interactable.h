@@ -25,4 +25,5 @@ class LOOKATTEST_API IInteractable
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void Interact(ALookAtTestCharacter* interActor);
+
 };

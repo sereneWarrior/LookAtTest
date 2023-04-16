@@ -9,7 +9,6 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "InteractableBase.h"
 #include "Interactable.h"
 
 #include "Kismet/KismetMathLibrary.h"
@@ -146,12 +145,11 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 	// Trigger interaction animation
 	if (!otherActors.IsEmpty())
 	{
-		// Find solution to get the right actor  at 0 is the lookattarget. Maybe using the same trigger for both events?
-		if (otherActors[0]->Implements<UInteractable>())
-		{
-			IInteractable::Execute_Interact(otherActors[0], this);
-			return;
-		}
+		AInteractableBase* test = Cast<AInteractableBase>(otherActors[0]);
+		anim = test->AnimLayer;
+		MoveToAndPlayAnim(test->EnterMeshComponent);
+		//IInteractable::Execute_Interact(otherActors[0], this);
+		return;
 	}
 	// TODO: Kneeling should be limited. Add overlapping area.
 	// Trigger kneeling
@@ -159,4 +157,12 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 	KneelDown();
 }
 
+//TODO: create Entermesh struct.
+void ALookAtTestCharacter::MoveToAndPlayAnim(USkeletalMeshComponent* enterMesh)
+{
+	float dist = (GetActorLocation() - enterMesh->GetComponentLocation()).Size();
+	// TODO: Put 105.0 (max speed) into varoable filled by mov comp.
+	float delay = dist / 150.0;
+	MovePlayerTo(enterMesh->GetComponentLocation(), enterMesh->GetComponentRotation(), delay);
+}
 

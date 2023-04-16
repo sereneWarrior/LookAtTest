@@ -7,6 +7,7 @@
 #include "InputActionValue.h"
 #include "LookAtTarget.h"
 #include "Components/TimelineComponent.h"
+#include "InteractableBase.h"
 #include "LookAtTestCharacter.generated.h"
 
 
@@ -46,6 +47,7 @@ class ALookAtTestCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* InterAction;
 
+	void MoveToAndPlayAnim(USkeletalMeshComponent* enterMesh);
 public:
 	ALookAtTestCharacter();
 	
@@ -90,6 +92,9 @@ public:
 	/** Kneeling flag.**/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsKneeling = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<UAnimInstance> anim;
 
 	/** Play interaction animations. **/
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)

@@ -4,9 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "LookAtTestCharacter.h"
 
 #include "InteractableBase.generated.h"
+
+USTRUCT()
+struct FEnterMesh
+{
+	GENERATED_BODY()
+	
+	FEnterMesh() {};
+	FEnterMesh(USkeletalMeshComponent* EnterMeshComponent)
+	{
+		Location = EnterMeshComponent->GetComponentLocation();
+	}
+
+	UPROPERTY()
+	FVector Location;
+
+	UPROPERTY()
+	FRotator Rotation;
+};
 
 /*
 Base class for objects that need an interaction animation to be played.
@@ -27,18 +44,22 @@ protected:
 	UPROPERTY()
 	USceneComponent* Root;
 
-	void MoveToAndPlayAnim(ALookAtTestCharacter* interActor);
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	USkeletalMeshComponent* EnterMesh;
+	USkeletalMeshComponent* EnterMeshComponent;
 
 	UPROPERTY(EditAnywhere)
+
 	USceneComponent* Socket;
 
 	UPROPERTY(EditAnywhere)
 	FName LookAt_Socket = "LookAt";
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UAnimInstance> AnimLayer;
+
+	FEnterMesh EnterMesh;
 };
