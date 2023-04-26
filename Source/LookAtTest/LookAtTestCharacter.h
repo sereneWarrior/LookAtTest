@@ -95,26 +95,24 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool IsKneeling = false;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TSubclassOf<UAnimInstance> anim;
+	// Stores the Animation Layer class to link to depending on interaction
+	UPROPERTY()
+	TSubclassOf<UAnimInstance> InteractionAnimInstance;
 
 	/** Play interaction animations. **/
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-	void UnlinkAnim();
-
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 	void LinkAnim();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void MovePlayerTo(FVector newLocation, FRotator otherRot, float duration);
 
-	UPROPERTY(BlueprintCallable, BlueprintAssignable)
-	FPlayAnimDelegate OnplayAnim;
-
 	UFUNCTION(BlueprintImplementableEvent)
 	void KneelDown();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void LinkInteractionAnimLayer();
+
+	UFUNCTION()
+	void UnlinkInteractionAnimLayer();
 };
 

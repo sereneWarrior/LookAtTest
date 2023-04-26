@@ -9,7 +9,6 @@ void UInteractionFinishedNotify::Notify(USkeletalMeshComponent* MeshComp, UAnimS
 	AActor* AnimOwner = MeshComp->GetOwner();
 	if (ALookAtTestCharacter* Character = Cast<ALookAtTestCharacter>(AnimOwner))
 	{
-		Character->UnlinkAnim();
+		Character->UnlinkInteractionAnimLayer();
 	}
-	//UE_LOG(LogTemp, Warning, TEXT("INTERACTION!!! %s"), *this->GetNotifyName());
 }

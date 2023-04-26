@@ -67,8 +67,6 @@ void ALookAtTestCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-
-	OnplayAnim.AddDynamic(this, &ALookAtTestCharacter::LinkAnim);
 }
 
 void ALookAtTestCharacter::Tick(float DeltaTime)
@@ -142,24 +140,22 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 {
 	// TODO: Improve where it is called. If Kneeling is moved at some point it needs change.
 	TArray<AActor*> otherActors;
-	// TODO: Think about using the trigger for lookAt triggering as well. If GetOverlappingActor is used without defining a class it gets the LookAtTaget as well.
 	GetOverlappingActors(otherActors, AInteractableBase::StaticClass());
 	// Trigger interaction animation
 	if (!otherActors.IsEmpty())
 	{
-		AInteractableBase* test = Cast<AInteractableBase>(otherActors[0]);
-		anim = test->AnimLayer;
-		//MoveToAndPlayAnim(test->EnterMeshComponent);
-		MoveToAndPlayAnim(&test->EnterMesh);
+		AInteractableBase* interactableObj = Cast<AInteractableBase>(otherActors[0]);
+		InteractionAnimInstance = interactableObj->AnimLayer;
+		MoveToAndPlayAnim(&interactableObj->EnterMesh);
 		//IInteractable::Execute_Interact(otherActors[0], this);
 		return;
 	}
-	// TODO: Kneeling should be limited. Add overlapping area.
 	// Trigger kneeling
 	UE_LOG(LogTemp, Warning, TEXT("Kneel"));
 	KneelDown();
 }
 
+// @todo DEPRECATED
 void ALookAtTestCharacter::MoveToAndPlayAnim(USkeletalMeshComponent* enterMesh)
 {
 	float dist = (GetActorLocation() - enterMesh->GetComponentLocation()).Size();
@@ -176,11 +172,14 @@ void ALookAtTestCharacter::MoveToAndPlayAnim(FEnterMesh* enterMesh)
 	MovePlayerTo(enterMesh->Location, enterMesh->Rotation, delay);
 }
 
-//@todo Link and unlink anim in code.
 void ALookAtTestCharacter::LinkInteractionAnimLayer()
 {
-	UE_LOG(LogTemp, Warning, TEXT("anim"));
-	GetMesh()->LinkAnimClassLayers(anim);
-	GetMesh()->UnlinkAnimClassLayers(anim);
+	GetMesh()->LinkAnimClassLayers(InteractionAnimInstance);
+	GetController()->SetIgnoreMoveInput(true);
 }
 
+void ALookAtTestCharacter::UnlinkInteractionAnimLayer()
+{
+	GetMesh()->UnlinkAnimClassLayers(InteractionAnimInstance);
+	GetController()->SetIgnoreMoveInput(false);
+}
