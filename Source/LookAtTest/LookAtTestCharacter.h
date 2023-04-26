@@ -48,6 +48,8 @@ class ALookAtTestCharacter : public ACharacter
 	class UInputAction* InterAction;
 
 	void MoveToAndPlayAnim(USkeletalMeshComponent* enterMesh);
+	void MoveToAndPlayAnim(FEnterMesh* enterMesh);
+	
 public:
 	ALookAtTestCharacter();
 	
@@ -98,10 +100,10 @@ public:
 
 	/** Play interaction animations. **/
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-	void PlayOpenDoorAnimation();
+	void UnlinkAnim();
 
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
-	void PlayOpenChestAnimation();
+	void LinkAnim();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void MovePlayerTo(FVector newLocation, FRotator otherRot, float duration);
@@ -111,5 +113,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void KneelDown();
+
+	UFUNCTION()
+	void LinkInteractionAnimLayer();
 };
 

@@ -16,7 +16,7 @@ class UProxyTestAnimInstance;
 USTRUCT(BlueprintType)
 struct LOOKATTEST_API FBaseAnimInstanceProxy : public FAnimInstanceProxy
 {
-	GENERATED_BODY()
+	GENERATED_USTRUCT_BODY()
 
 	bool CheckLookAtRotationRange();
 protected:
@@ -29,7 +29,7 @@ protected:
 	virtual void PreUpdate(UAnimInstance* AnimInstance, float DeltaSeconds) override;
 	//Called on game thread, after update to copy updated data into anim instance
 	virtual void PostUpdate(UAnimInstance* AnimInstance) const override;
-
+	
 	//General
 	UPROPERTY(Transient)
 	UProxyTestAnimInstance* OwnerAnimInstance;
@@ -84,6 +84,9 @@ protected:
 
 	virtual FAnimInstanceProxy* CreateAnimInstanceProxy() override {	return &Proxy;	}
 	virtual void DestroyAnimInstanceProxy(FAnimInstanceProxy* InProxy) override {}
+	
+	UPROPERTY(Transient, BlueprintReadOnly)
+	ALookAtTestCharacter* Owner;
 
 	// Movement
 	UPROPERTY(Transient, EditAnywhere, BlueprintReadOnly)

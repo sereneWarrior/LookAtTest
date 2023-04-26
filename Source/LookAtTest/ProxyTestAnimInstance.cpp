@@ -2,6 +2,8 @@
 
 #include "ProxyTestAnimInstance.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "InteractionFinishedNotify.h"
 
 bool FBaseAnimInstanceProxy::CheckLookAtRotationRange()
 {
@@ -29,11 +31,14 @@ void FBaseAnimInstanceProxy::Initialize(UAnimInstance* AnimInstance)
 	if (!AnimInstance) return;
 
 	OwnerAnimInstance = Cast<UProxyTestAnimInstance>(AnimInstance);
+	OwnerAnimInstance->SetReceiveNotifiesFromLinkedInstances(true);
+
 	Owner = Cast<ACharacter>(AnimInstance->GetOwningActor());
 	
 	if (Owner)
 	{
 		CharacterMovement = Owner->GetCharacterMovement();
+		Owner = Cast<ALookAtTestCharacter>(Owner);
 	}
 }
 
@@ -45,6 +50,8 @@ void FBaseAnimInstanceProxy::PreUpdate(UAnimInstance* AnimInstance, float DeltaS
 	{
 		Velocity = CharacterMovement->GetLastUpdateVelocity();
 		Acceleration = CharacterMovement->GetCurrentAcceleration();
+
+		//TODO: Make owner ALookAtTestCharacter.
 		ALookAtTestCharacter* Character = Cast<ALookAtTestCharacter>(Owner);
 		if (Character == nullptr) return;
 		if (CharacterIsLookingAt = Character->IsLookingAt
@@ -59,7 +66,7 @@ void FBaseAnimInstanceProxy::PreUpdate(UAnimInstance* AnimInstance, float DeltaS
 void FBaseAnimInstanceProxy::Update(float DeltaSeconds)
 {
 	Super::Update(DeltaSeconds);
-
+	
 	//Calculation
 	Speed = Velocity.Size();
 	ShouldMove = Speed >= 3.0f
@@ -71,6 +78,7 @@ void FBaseAnimInstanceProxy::Update(float DeltaSeconds)
 
 void FBaseAnimInstanceProxy::PostUpdate(UAnimInstance* AnimInstance) const
 {
+	Super::PostUpdate(AnimInstance);
 	// Copy Data
 	if (OwnerAnimInstance)
 	{

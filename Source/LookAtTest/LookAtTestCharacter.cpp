@@ -67,6 +67,8 @@ void ALookAtTestCharacter::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	OnplayAnim.AddDynamic(this, &ALookAtTestCharacter::LinkAnim);
 }
 
 void ALookAtTestCharacter::Tick(float DeltaTime)
@@ -147,7 +149,8 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 	{
 		AInteractableBase* test = Cast<AInteractableBase>(otherActors[0]);
 		anim = test->AnimLayer;
-		MoveToAndPlayAnim(test->EnterMeshComponent);
+		//MoveToAndPlayAnim(test->EnterMeshComponent);
+		MoveToAndPlayAnim(&test->EnterMesh);
 		//IInteractable::Execute_Interact(otherActors[0], this);
 		return;
 	}
@@ -157,12 +160,27 @@ void ALookAtTestCharacter::Interact(const FInputActionValue& InputActionValue)
 	KneelDown();
 }
 
-//TODO: create Entermesh struct.
 void ALookAtTestCharacter::MoveToAndPlayAnim(USkeletalMeshComponent* enterMesh)
 {
 	float dist = (GetActorLocation() - enterMesh->GetComponentLocation()).Size();
 	// TODO: Put 105.0 (max speed) into varoable filled by mov comp.
 	float delay = dist / 150.0;
 	MovePlayerTo(enterMesh->GetComponentLocation(), enterMesh->GetComponentRotation(), delay);
+}
+
+void ALookAtTestCharacter::MoveToAndPlayAnim(FEnterMesh* enterMesh)
+{
+	float dist = (GetActorLocation() - enterMesh->Location).Size();
+	// TODO: Put 150.0 (max speed) into varoable filled by mov comp.
+	float delay = dist / GetCharacterMovement()->MaxWalkSpeed;
+	MovePlayerTo(enterMesh->Location, enterMesh->Rotation, delay);
+}
+
+//@todo Link and unlink anim in code.
+void ALookAtTestCharacter::LinkInteractionAnimLayer()
+{
+	UE_LOG(LogTemp, Warning, TEXT("anim"));
+	GetMesh()->LinkAnimClassLayers(anim);
+	GetMesh()->UnlinkAnimClassLayers(anim);
 }
 

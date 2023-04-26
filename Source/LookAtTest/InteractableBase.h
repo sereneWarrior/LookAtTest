@@ -16,6 +16,7 @@ struct FEnterMesh
 	FEnterMesh(USkeletalMeshComponent* EnterMeshComponent)
 	{
 		Location = EnterMeshComponent->GetComponentLocation();
+		Rotation = EnterMeshComponent->GetComponentRotation();
 	}
 
 	UPROPERTY()
@@ -44,16 +45,18 @@ protected:
 	UPROPERTY()
 	USceneComponent* Root;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere)
-	USkeletalMeshComponent* EnterMeshComponent;
+		USkeletalMeshComponent* EnterMeshComponent;
 
 	UPROPERTY(EditAnywhere)
 
 	USceneComponent* Socket;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 
 	UPROPERTY(EditAnywhere)
 	FName LookAt_Socket = "LookAt";

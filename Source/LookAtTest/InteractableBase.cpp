@@ -21,6 +21,8 @@ AInteractableBase::AInteractableBase()
 void AInteractableBase::BeginPlay()
 {
 	Super::BeginPlay();
+	EnterMesh = FEnterMesh(EnterMeshComponent);
+	UE_LOG(LogTemp, Warning, TEXT("Walk to %s"), *EnterMesh.Location.ToString());
 }
 
 // Called every frame
