@@ -6,6 +6,7 @@ Small sample scene with simple narrative structure.
 - [Project planning](###project-planning)
 - [Narrative](###narrative-and-characters)
 - [Player character](###player-character) 
+- [Animations](###animations) 
 - Objects
 - Metahuman - as interactible component (NPC)
 - Player character clothes 
@@ -58,7 +59,21 @@ The UE default mannequin *Quinn* fits that narative idea perfectly so I left her
 
 ## Animations
 
-#### Look at behaviour
+### Animation Blueprint
+*AnimationInstanceProxy* and *Multi threaded animation*  are features new since UE 5 to optimize animation perfomance. The proxy stores variables necessary for animations to play and adapt (e.g. speed, or certain flags) while thread safe animation outsources animation processing from the game thread onto a seperate thread. To get better understanding of this feature I implemented theproxy in C++.
+
+Other new features since UE 5 are *Linked Anim Graph* and *Animation Interfaces*. I used the first to seperate Locomotion and LookAt logic from the general Anim Graph. The interface was set up to implement Interaction animations which vary only depending on the object the character was interacting with:
+
+<img
+  src="images/AnimGraph.jpg"
+  alt="Class diagramm"
+  width="50%"
+  style="display: block; 
+    margin-left: auto;
+    margin-right: auto;">
+
+
+### Look at behaviour
 
 <img
   src="images/LookAt.gif"
@@ -93,3 +108,15 @@ The movement of the bones is set up in the **Look** Control rig. The target loca
   width="49%">
   <figcaption style="font-weight: bold;">Left - Set up of Look control rig in ABP_Base; Right - Set up of the head rotation using LookAtLoaction coordinates to manipulate head, neck and spine bones</figcaption>
 </figure>
+
+### Move to animation position
+To have the character standing in the right position when pressing the Key to interact with an object an *NavMesh* was used to walk the character to the correct position before playing the animation.
+
+<img
+  src="images/MoveTo.gif"
+  alt="Class diagramm"
+  width="50%"
+  style="display: block; 
+    margin-left: auto;
+    margin-right: auto;">
+    <figcaption style="font-weight: bold;">The E key is pressed while having the character still positioned at some distance from the animation postition. The functionality rotates and walks the character to the right postion and then play the animation.</figcaption>
